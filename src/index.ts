@@ -85,27 +85,35 @@ const generateSourceMaps = (bundle: OutputBundle) => {
   }
 };
 
+const processCodeFile = (filepath: string, filename: string): [string, string | { binary: string }] => {
+  const parts = filename.split('.');
+  const name = parts[0];
+  const extension = parts.length > 1 ? parts.slice(1).join('.').toLowerCase() : '';
+
+  if (extension === 'js') {
+    return [name, fs.readFileSync(filepath, 'utf-8')];
+  } else if (extension === 'js.map') {
+    return [filename, fs.readFileSync(filepath, 'utf-8')];
+  }
+  return [name, { binary: fs.readFileSync(filepath).toString('base64') }];
+};
+
 const getCodeList = async (distFile: string): Promise<ScreepsCodeList> => {
   const codeList: ScreepsCodeList = {};
-  const files = fs.readdirSync(distFile);
-  for (const file of files) {
-    const filepath = path.join(distFile, file);
+  const stats = fs.statSync(distFile);
 
-    const parts = file.split('.');
-    const filename = parts[0];
-    const extension = parts.length > 1 ? parts.slice(1).join('.').toLowerCase() : '';
-
-    if (extension === 'js') {
-      codeList[filename] = fs.readFileSync(filepath, 'utf-8');
-    } else if (extension === 'js.map') {
-      codeList[file] = fs.readFileSync(filepath, 'utf-8');
-    } else {
-      codeList[filename] = {
-        binary: fs.readFileSync(filepath).toString('base64')
-      };
+  if (stats.isDirectory()) {
+    const files = fs.readdirSync(distFile);
+    for (const file of files) {
+      const filepath = path.join(distFile, file);
+      const [key, value] = processCodeFile(filepath, file);
+      codeList[key] = value;
     }
+  } else {
+    const filename = path.basename(distFile);
+    const [key, value] = processCodeFile(distFile, filename);
+    codeList[key] = value;
   }
-
   return codeList;
 };
 

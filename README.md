@@ -35,7 +35,6 @@ Example `package.json` scripts
 
 ```json
 {
-  // ...
   "scripts": {
     "build": "rollup -c",
     "push:main": "rollup -c --environment DEST:main",
