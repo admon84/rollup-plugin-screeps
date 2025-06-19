@@ -1,9 +1,11 @@
-# Rollup Plugin for Screeps: World
+# Rollup Plugin for Screeps World
+
+Uses [Screeps API](https://www.npmjs.com/package/screeps-api) to upload code to screeps servers.
 
 ## Install
 
 ```
-npm i --save-dev @admon84/rollup-plugin-screeps
+npm i --save-dev @admon-dev/rollup-plugin-screeps
 ```
 
 ## Usage
@@ -11,44 +13,66 @@ npm i --save-dev @admon84/rollup-plugin-screeps
 In `rollup.config.mjs`
 
 ```mjs
-import screeps from '@admon84/rollup-plugin-screeps';
+import screeps from '@admon-dev/rollup-plugin-screeps';
 
 export default {
   // ...
-  sourcemap: true, // If set to true your source maps will be generated
+  output: {
+    // ...
+    sourcemap: true, // To generate source maps
+  },
   plugins: [
     // ...
     screeps({
-      config: './screeps.json', // If set will read the config file from path
-      destination: 'main' // If set will read the options for the entry otherwise default
+      config: './screeps.config.json', // To read the config
+      destination: process.env.DEST // To upload code
     })
   ]
 }
 ```
 
+Example `package.json` scripts
+
+```json
+{
+  // ...
+  "scripts": {
+    "build": "rollup -c",
+    "push:main": "rollup -c --environment DEST:main",
+    "push:season": "rollup -c --environment DEST:season",
+    "push:pserver": "rollup -c --environment DEST:pserver"
+  }
+}
+```
+
 ### Config File
 
-@admon84/rollup-plugin-screeps needs your screeps username/password or token and the server to upload to.
+Create your `screeps.config.json` file and set login details for each server connection.
+
+List this file in `.gitignore` to keep it private and excluded from git.
+
+Use **token** for official screeps servers and **username/password** for private servers.
 
 ```json
 {
   "main": {
-    "token": "<TOKEN>",
+    "token": "SET TOKEN HERE",
     "protocol": "https",
     "hostname": "screeps.com",
     "port": 443,
     "branch": "main"
   },
-  "sim": {
-    "token": "<TOKEN>",
+  "season": {
+    "token": "SET TOKEN HERE",
     "protocol": "https",
     "hostname": "screeps.com",
+    "path": "/season",
     "port": 443,
-    "branch": "sim"
+    "branch": "season"
   },
   "pserver": {
-    "email": "<USERNAME>",
-    "password": "<PASSWORD>",
+    "email": "SET USERNAME HERE",
+    "password": "SET PASSWORD HERE",
     "protocol": "http",
     "hostname": "127.0.0.1",
     "port": 21025,
@@ -57,7 +81,7 @@ export default {
 }
 ```
 
-If `branch` is set to `"auto"` @admon84/rollup-plugin-screeps will use your current git branch as the name of the branch on screeps, if you set it to anything else that string will be used as the name of the branch.
+If `branch` is set to `"auto"` your current git branch name will be used as the branch on screeps, anything else will use the string as the branch name.
 
 ## Credits
 
