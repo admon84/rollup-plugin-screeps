@@ -1,12 +1,9 @@
 {
-  "plugins": [],
-  "trailingComma": "none",
-  "tabWidth": 2,
   "semi": true,
-  "singleQuote": false,
-  "arrowParens": "always",
-  "useTabs": false,
-  "printWidth": 80,
-  "endOfLine": "lf",
-  "quoteProps": "as-needed"
+  "tabWidth": 2,
+  "printWidth": 120,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "endOfLine": "auto"
 }
