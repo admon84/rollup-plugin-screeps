@@ -132,7 +132,7 @@ const upload = async (options: ScreepsRollupOptions, distFile: string) => {
   }
 
   if (!options.destination) {
-    throw new Error('Skipping upload');
+    return; // Exit quietly
   }
 
   const config = options.config[options.destination];
@@ -190,18 +190,10 @@ const upload = async (options: ScreepsRollupOptions, distFile: string) => {
 
   await api.code.set(branch, code, null);
 
-  console.log(`Code uploaded to branch: ${branch}`);
+  console.log(`Code uploaded to branch '${branch}'`);
 };
 
-export default async function screeps(screepsRollupOptions: ScreepsRollupOptions): Promise<Plugin> {
-  if (!screepsRollupOptions) {
-    screepsRollupOptions = {};
-  }
-
-  if (!screepsRollupOptions.config) {
-    screepsRollupOptions.config = DEFAULT_CONFIG_FILE;
-  }
-
+export default async function screeps(screepsRollupOptions: ScreepsRollupOptions = {}): Promise<Plugin> {
   return {
     name: 'screeps',
     generateBundle: async (_options: OutputOptions, bundle: OutputBundle): Promise<void> => {
