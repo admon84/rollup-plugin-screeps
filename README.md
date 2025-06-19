@@ -1,6 +1,6 @@
 # Rollup Plugin for Screeps World
 
-Uses [Screeps API](https://www.npmjs.com/package/screeps-api) to upload code to screeps servers.
+Uses [screeps-api](https://www.npmjs.com/package/screeps-api) to upload code to screeps servers.
 
 ## Install
 
