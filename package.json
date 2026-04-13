@@ -1,6 +1,6 @@
 {
   "name": "@admon-dev/rollup-plugin-screeps",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup --config"
@@ -34,6 +34,6 @@
   },
   "homepage": "https://github.com/admon84/rollup-plugin-screeps#readme",
   "engines": {
-    "node": ">=24"
+    "node": ">=18"
   }
 }
