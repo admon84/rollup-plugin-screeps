@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import git from 'git-rev-sync';
 import type { OutputBundle, OutputOptions, Plugin } from 'rollup';
-import { ScreepsAPI } from 'screeps-api';
+import { ScreepsAPI } from '@admon-dev/screeps-api';
 
 const DEFAULT_CONFIG_FILE = 'screeps.config.json';
 
@@ -184,7 +184,7 @@ const upload = async (options: ScreepsRollupOptions, distFile: string) => {
   }
 
   const code = await getCodeList(distFile);
-  if (!branches.list.some((branch: any) => branch.branch === branch)) {
+  if (!branches.list.some((b: any) => b.branch === branch)) {
     await api.raw.user.cloneBranch('', branch, code);
   }
 

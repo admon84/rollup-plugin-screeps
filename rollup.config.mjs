@@ -1,6 +1,5 @@
 import clear from 'rollup-plugin-clear';
 import typescript from '@rollup/plugin-typescript';
-import nodeResolve from '@rollup/plugin-node-resolve';
 
 const watchMode = process.env.ROLLUP_WATCH === 'true';
 
@@ -17,5 +16,5 @@ export default {
     }),
     typescript()
   ],
-  external: ['fs', 'path', 'git-rev-sync', 'screeps-api']
+  external: ['fs', 'path', 'git-rev-sync', '@admon-dev/screeps-api']
 };
